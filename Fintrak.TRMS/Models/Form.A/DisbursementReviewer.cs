@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace Fintrak.TRMS.Models
@@ -9,8 +9,8 @@ namespace Fintrak.TRMS.Models
         public string Note { get; set; }
         //public string DaemonReviewName { get; set; }
         //public string DaemonSupervisorName { get; set; }
-        //public List<Beneficiary> Beneficiaries { get; set; }
-        public string Beneficiaries { get; set; }
+        public List<Beneficiary> Beneficiaries { get; set; }
+        //public string Beneficiaries { get; set; }
         public bool DisbursementsCloseOut { get; set; }
         public string RejectionStakeholder { get; set; }
     }
