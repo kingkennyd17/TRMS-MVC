@@ -1,0 +1,255 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model Fintrak.TRMS.PageDTO.FormADetailsPageDTO
+
+<div class="page_layout">
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#form">Form</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#document">Documents</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="@Url.Action("Index", "Home")">Form A List</a>
+        </li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div class="tab-pane active" id="form">
+            <br>
+            <div class="flex-container">
+                <!-- ... Other content ... -->
+
+                <!-- Example of Razor syntax usage -->
+                @if (Model.FormADetails != null)
+                {
+                    <div class="flex-item">
+                        <h6>Application</h6>
+
+                        <div class="flex-item--content">
+                            <div class="col-5">
+                                Status:
+                            </div>
+                            <div class="submitted">@Model.FormADetails.ResponseResult.Status</div>
+                        </div>
+                        <!-- ... Other content ... -->
+
+                        <!-- Example of Razor syntax in ngFor loop -->
+                        @foreach (var d in Model.FormADetails.ResponseResult.Beneficiaries)
+                        {
+                            <div>
+                                <div class="flex-item--content">
+                                    <div class="col-5">
+                                        Name:
+                                    </div>
+                                    <div>@d.Name</div>
+                                </div>
+                                <div class="flex-item--content">
+                                    <div class="col-5">
+                                        Email:
+                                    </div>
+                                    <div>@d.Email</div>
+                                </div>
+                                <!-- ... Other content ... -->
+                            </div>
+                        }
+
+                        <!-- ... Other content ... -->
+
+                    </div>
+
+                    <!-- ... Other content ... -->
+                }
+
+            </div>
+            <br>
+            <br>
+            <div class="accordion accordion-flush" id="accordionInput">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingOne">
+                        <button class="accordion-button collapsed col-2" type="button" data-toggle="collapse"
+                            data-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                            Input <span class="form_input_acc">(click to make input)</span>
+                        </button>
+                    </h2>
+                    <div id="flush-collapseOne" class="accordion-collapse" aria-labelledby="flush-headingOne"
+                        data-parent="#accordionInput">
+
+                        <ul class="nav nav-tabs" id="formTabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="tabApprovalFormA" data-bs-toggle="tab" href="#tabContentApprovalFormA">Form-A Approval</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="tabDisbursement" data-bs-toggle="tab" href="#tabContentDisbursement">Disbursement</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content mt-2">
+                            <div class="tab-pane fade show active" id="tabContentApprovalFormA">
+                                <form asp-controller="Home" asp-action="ApprovalFormA" method="post">
+                                    <div class="accordion-body">
+                                        <div class="flex-item col-2">
+                                            @if (Model.FormADetails != null)
+                                            {
+                                                <input type="hidden" name="applicationId" value="@Model.FormADetails.ResponseResult.ApplicationNumber" />
+                                            }
+                                            else
+                                            {
+                                                <input type="hidden" name="applicationId" value="AF2023507721" />
+                                            }
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="ADB">
+                                            <label class="form-check-label" for="adbreview">
+                                                ADB Reviewer
+                                            </label>
+                                        </div>
+                                        <div class="gap"></div>
+                                        <div class="col-2">
+                                            <h6>Actions</h6>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" id="flexRadioDefault1"
+                                                       asp-for="ApprovalRequest.Approved" name="Approved" value="true">
+                                                <label class="form-check-label" for="flexRadioDefault1">
+                                                    Recommended for Approval
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" id="flexRadioDefault2"
+                                                       asp-for="ApprovalRequest.Approved" name="Approved" value="false">
+                                                <label class="form-check-label" for="flexRadioDefault2">
+                                                    Recommended for Rejection
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <label asp-for="ApprovalRequest.DaemonReviewerName">Daemon Reviewer Name:</label>
+                                            <input asp-for="ApprovalRequest.DaemonReviewerName" name="DaemonReviewerName" />
+                                        </div>
+                                        <br />
+
+                                        <div>
+                                            <label asp-for="ApprovalRequest.DaemonSupervisorName">Daemon Supervisor Name:</label>
+                                            <input asp-for="ApprovalRequest.DaemonSupervisorName" name="DaemonSupervisorName" />
+                                        </div>
+                                        <br />
+
+                                        <div>
+                                            <label asp-for="ApprovalRequest.RejectionReasonCode">Rejection Reason Code:</label>
+                                            <input asp-for="ApprovalRequest.RejectionReasonCode" name="RejectionReasonCode" />
+                                        </div>
+                                        <br />
+                                        <div class="gap"></div>
+                                        <div>
+                                            <h6>Note</h6>
+                                            <textarea name="note" id="note" cols="100" rows="5" class="custom-border" placeholder="Note" asp-for="ApprovalRequest.Note"></textarea>
+                                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                                <button type="button" class="btn btn-outline-secondary">Cancel</button>
+                                                <button class="btn btn-primary" type="submit">Submit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="tab-pane fade" id="tabContentDisbursement">
+                                <form asp-controller="Home" asp-action="DisbursementFormA" method="post">
+                                    <div class="accordion-body">
+                                        <div class="flex-item col-2">
+                                            <h6>Beneficiary</h6>
+                                            @if (Model.FormADetails != null)
+                                            {
+                                                <input type="hidden" name="applicationId" value="@Model.FormADetails.ResponseResult.ApplicationNumber" />
+                                                <input type="hidden" asp-for="DisbursementRequest.Beneficiaries" name="Beneficiaries" value="@Model.FormADetails.ResponseResult.Beneficiaries">
+                                            }
+                                            else
+                                            {
+                                                <input type="hidden" name="applicationId" value="AF2023507721" />
+                                                <input type="hidden" asp-for="DisbursementRequest.Beneficiaries" name="Beneficiaries" value="testing the mic">
+                                            }
+                                            <!-- Example of Razor syntax in ngFor loop -->
+                                            @if (Model.FormADetails != null)
+                                            {
+                                                @foreach (var d in Model.FormADetails.ResponseResult.Beneficiaries)
+                                                {
+                                                    <div>
+                                                        <div class="flex-item--content">
+                                                            <div class="col-5">
+                                                                Name:
+                                                            </div>
+                                                            <div>@d.Name</div>
+                                                        </div>
+                                                        <div class="flex-item--content">
+                                                            <div class="col-5">
+                                                                BVN:
+                                                            </div>
+                                                            <div>@d.Bvn</div>
+                                                        </div>
+                                                        <div class="flex-item--content">
+                                                            <div class="col-5">
+                                                                Amount Requested:
+                                                            </div>
+                                                            <div>@d.AmountRequested</div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            }
+                                        </div>
+                                        <div class="gap"></div>
+                                        <div class="col-2">
+                                            <h6>Actions</h6>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" id="flexRadioDefault1"
+                                                       asp-for="DisbursementRequest.RejectionStakeholder" name="RejectionStakeholder" value="Approved">
+                                                <label class="form-check-label" for="flexRadioDefault1">
+                                                    Approve
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" id="flexRadioDefault2"
+                                                       asp-for="DisbursementRequest.RejectionStakeholder" name="RejectionStakeholder" value="approverADB">
+                                                <label class="form-check-label" for="flexRadioDefault2">
+                                                    Reject to ADB Reviewer
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" id="flexRadioDefault3"
+                                                       asp-for="DisbursementRequest.RejectionStakeholder" name="RejectionStakeholder" value="applicant">
+                                                <label class="form-check-label" for="flexRadioDefault3">
+                                                    Reject to Applicant
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <label class="form-check-label" for="reasonCode">
+                                                    Reason Code
+                                                </label>
+                                                <input type="text" name="reasonCode" id="reasonCode" />
+                                            </div>
+                                        </div>
+                                        <div class="gap"></div>
+                                        <div>
+                                            <h6>Note</h6>
+                                            <textarea name="note" id="note" cols="100" rows="5" class="custom-border" placeholder="Note" asp-for="ApprovalRequest.Note"></textarea>
+                                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                                <button type="button" class="btn btn-outline-secondary">Cancel</button>
+                                                <button class="btn btn-primary" type="submit">Submit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="document">...</div>
+    </div>
+</div>

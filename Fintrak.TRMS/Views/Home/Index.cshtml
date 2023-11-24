@@ -1,0 +1,199 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model Fintrak.TRMS.PageDTO.FormAPageDTO
+
+<div class="container mt-4">
+    <ul class="nav nav-tabs" id="formTabs">
+        <li class="nav-item">
+            <a class="nav-link active" id="tabPendingFormA" data-bs-toggle="tab" href="#tabContentPendingFormA">Pending Form A</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="tabProcessedFormA" data-bs-toggle="tab" href="#tabContentProcessedFormA">Processed Form A List</a>
+        </li>
+    </ul>
+
+    <div class="tab-content mt-2">
+        <div class="tab-pane fade show active" id="tabContentPendingFormA">
+            <div class="page_layout">
+                <div class="sarh">
+                    <h2>Pending Form-A Application</h2>
+                    <div class="mb-3 col-3 srh">
+                        <form asp-action="Index" asp-controller="Home" method="get">
+                            <input type="text" class="form-control" id="applicationId" name="applicationId" placeholder="Search..." />
+                            <button class="btn btn-primary" type="submit">Search</button>
+                        </form>
+                    </div>
+                </div>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Form Serial Number</th>
+                            <th>ID</th>
+                            <th>Applicant ID</th>
+                            <th>Applicant Name</th>
+                            <th>Application Number</th>
+                            <th>Form Number</th>
+                            <th>Currency Code</th>
+                            <th>Total Amount Requested</th>
+                            <th>Total Amount Disbursed</th>
+                            <th>Approving Stakeholder Name</th>
+                            <th>Status</th>
+                            <th>Current Stage Date</th>
+                            <th>Processing Bank Branch</th>
+                            <th>Last Modified</th>
+                            <th>Date Created</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.PendingFormA != null && Model.PendingFormA.responseResult != null && Model.PendingFormA.responseResult.content != null)
+                        {
+                            @foreach (var d in Model.PendingFormA.responseResult.content)
+                            {
+                                <tr class="pending-clickable-row" data-id="@d.Id">
+                                    <td>@d.FormNumberSerial</td>
+                                    <td>@d.Id</td>
+                                    <td>@d.ApplicantId</td>
+                                    <td>@d.ApplicantName</td>
+                                    <td class="applicationNumber">@d.ApplicationNumber</td>
+                                    <td>@d.FormNumber</td>
+                                    <td>@d.CurrencyCode</td>
+                                    <td>@d.TotalAmountRequested</td>
+                                    <td>@d.TotalAmountDisbursed</td>
+                                    <td>@d.ApprovingStakeholderName</td>
+                                    <td>
+                                        <div class="stage">
+                                            @d.StatusCode
+                                        </div>
+                                    </td>
+                                    <td>@(
+                                        d.CurrentStageDate?.ToString("yyyy-MM-dd") ?? "N/A"
+                                        )</td>
+                                    <td>@d.ProcessingBankBranchName</td>
+                                    <td>@(
+                                        d.UpdatedAt?.ToString("yyyy-MM-dd") ?? "N/A"
+                                        )</td>
+                                    <td>@(
+                                        d.CreatedAt?.ToString("yyyy-MM-dd") ?? "N/A"
+                                        )</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+                <pagination-controls></pagination-controls>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="tabContentProcessedFormA">
+            <div class="page_layout">
+                <div class="sarh">
+                    <h2>Processed Form-A Application</h2>
+                    <form asp-action="Index" asp-controller="Home" method="get">
+                        <div class="mb-3 col-3 srh">
+                            <input type="text" class="form-control" id="applicationId" name="applicationId" placeholder="Search..." />
+                            <button class="btn btn-primary" type="submit">Search</button>
+                        </div>
+                    </form>
+                </div>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Form Serial Number</th>
+                            <th>ID</th>
+                            <th>Applicant ID</th>
+                            <th>Applicant Name</th>
+                            <th>Application Number</th>
+                            <th>Form Number</th>
+                            <th>Currency Code</th>
+                            <th>Total Amount Requested</th>
+                            <th>Total Amount Disbursed</th>
+                            <th>Approving Stakeholder Name</th>
+                            <th>Status</th>
+                            <th>Current Stage Date</th>
+                            <th>Processing Bank Branch</th>
+                            <th>Last Modified</th>
+                            <th>Date Created</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.ProcessedFormA != null && Model.ProcessedFormA.ResponseResult != null && Model.ProcessedFormA.ResponseResult.content != null)
+                        {
+                            @foreach (var d in Model.ProcessedFormA.ResponseResult.content)
+                            {
+                                <tr class="processed-clickable-row" data-id="@d.Id">
+                                    <td>@d?.FormNumberSerial</td>
+                                    <td>@d?.Id</td>
+                                    <td>@d?.ApplicantId</td>
+                                    <td>@d?.ApplicantName</td>
+                                    <td class="applicationNumber">@d?.ApplicationNumber</td>
+                                    <td>@d?.FormNumber</td>
+                                    <td>@d?.CurrencyCode</td>
+                                    <td>@d?.TotalAmountRequested</td>
+                                    <td>@d?.TotalAmountDisbursed</td>
+                                    <td>@d?.ApprovingStakeholderName</td>
+                                    <td>
+                                        <div class="stage">
+                                            @(
+                                            d?.Status
+                                            )
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @(
+                                        d?.CurrentStageDate?.ToString("yyyy-MM-dd") ?? "N/A"
+                                    )
+                                    </td>
+                                    <td>@d?.ProcessingBankBranchName</td>
+                                    <td>
+                                        @(
+                                        d?.UpdatedAt?.ToString("yyyy-MM-dd") ?? "N/A"
+                                    )
+                                    </td>
+                                    <td>
+                                        @(
+                                        d?.CreatedAt?.ToString("yyyy-MM-dd") ?? "N/A"
+                                    )
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+                <pagination-controls></pagination-controls>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    // Handle click event on rows with class 'pending-clickable-row'
+    document.querySelectorAll('.pending-clickable-row').forEach(row => {
+        row.addEventListener('click', function () {
+            // Get the data-id attribute value (assuming it's the ID of the item)
+            var itemId = this.getAttribute('data-id');
+
+            // Call the action method to get details and update the details-container
+            fetch('/Home/FormADetails/' + itemId)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('details-container').innerHTML = data;
+                });
+        });
+    });
+    document.querySelectorAll('.processed-clickable-row').forEach(row => {
+        row.addEventListener('click', function () {
+            // Get the data-id attribute value (assuming it's the ID of the item)
+            var itemId = this.getAttribute('data-id');
+
+            // Call the action method to get details and update the details-container
+            fetch('/Home/FormADetails/' + itemId)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('details-container').innerHTML = data;
+                });
+        });
+    });
+</script>

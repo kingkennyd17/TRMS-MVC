@@ -1,0 +1,56 @@
+﻿@model Fintrak.TRMS.Models.Login
+
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+
+<div class="l-container child">
+    <div class="l-container_client_logo col-6 ">
+        <img src="~/assets/logo.png" alt="trms logo" />
+        <p>Trade Monitoring System Portal</p>
+    </div>
+    <div class="vl"></div>
+    <div class="login-container col-4">
+        <h2 class="text-center">
+            <img src="~/assets/scb_logo.png" alt="" class="responsive-image" />
+        </h2>
+
+        <form asp-controller="Account" asp-action="Login" method="post">
+            <div class="mb-3">
+                <label asp-for="username" class="form-label">Username</label>
+                <input asp-for="username" class="form-control" />
+                <span asp-validation-for="username" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="password" class="form-label">Password</label>
+                <input asp-for="password" type="password" class="form-control" />
+                <span asp-validation-for="password" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <input asp-for="grant_type" type="hidden" value="password" />
+            </div>
+
+            <div class="btn_container">
+                <button type="submit" class="btn btn-primary col-6">Login</button>
+                <div class="form-check">
+                    <input asp-for="RememberMe" class="form-check-input" />
+                    <label asp-for="RememberMe" class="form-check-label">Remember me</label>
+                </div>
+            </div>
+        </form>
+
+        <div>
+            @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+            {
+                <div class="text-danger">
+                    @ViewBag.ErrorMessage
+                </div>
+            }
+        </div>
+        <a href="#" class="d-block text-center">Forgot password?</a>
+    </div>
+</div>

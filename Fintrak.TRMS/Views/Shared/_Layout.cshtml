@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Fintrak.TRMS</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+   @* <link rel="stylesheet" href="~/Fintrak.TRMS.styles.css" asp-append-version="true" />*@
+    <link rel="stylesheet" href="~/css/navstyle.css" />
+    <link rel="stylesheet" href="~/css/basestyle.css" />
+
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+    <div class="cover1">
+        <div class="trms">
+            <img src="~/assets/logo.png" alt="Logo">
+            <div class="dd">
+                <h5>Trade Review Management System Portal</h5>
+                <p class="email1"> @ViewBag.UserEmail </p>
+                <a class="logout" href="#" onclick="logout()">Logout</a>
+            </div>
+        </div>
+        <div class="menus1 col-3">
+            <a href="@Url.Action("FormNXP", "Home")">Form NXP</a>
+            <a href="@Url.Action("FormNCX", "Home")">Form NCX</a>
+            <a href="@Url.Action("Index", "Home")">Form A</a>
+        </div>
+    </div>
+
+            @RenderBody()
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2023 - Fintrak.TRMS - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/popper.min.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await Component.InvokeAsync("Notyf")
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

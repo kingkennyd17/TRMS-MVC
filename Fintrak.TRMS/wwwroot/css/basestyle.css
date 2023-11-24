@@ -1,0 +1,275 @@
+@font-face {
+    font-family: "Nunito-Sans";
+    src: local("Nunito-Sans"), url(./assets/fonts/NunitoSans.ttf) format("truetype");
+}
+
+*,
+body {
+    font-family: "Nunito-Sans", sans-serif;
+}
+
+.transparent-overlay {
+    top: 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 2000;
+    background-color: rgba(22, 33, 40, 0.38);
+    right: 0;
+    display: none;
+}
+
+    .transparent-overlay .loading-img {
+        width: 100px;
+        margin: auto;
+        text-align: center;
+        margin-top: 25rem;
+    }
+
+.btn_custom {
+    background-color: #08a052;
+    padding: 5px;
+    text-align: center;
+}
+
+thead th:first-child {
+    border-top-left-radius: 10px;
+}
+
+thead th:last-child {
+    border-top-right-radius: 10px;
+}
+
+table thead tr {
+    background-color: #8d8d8d;
+    color: white;
+}
+
+table tr {
+    background-color: rgb(230, 230, 230);
+}
+
+thead th {
+    padding: 20px;
+    text-align: center;
+}
+
+tbody td {
+    padding: 20px;
+    text-align: center;
+}
+
+tbody td {
+    transition: border 0.3s;
+    padding: 5px 10px;
+}
+
+    tbody td:first-child {
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+    }
+
+    tbody td:last-child {
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+    }
+
+tbody td {
+    border-top: 1px solid transparent;
+    border-bottom: 1px solid transparent;
+    transition: border 0.3s;
+}
+
+/* tbody td:first-child {
+  border-left: 1px solid transparent;
+}
+
+tbody td:last-child {
+  border-right: 1px solid transparent;
+} */
+
+/* Hover state: Add border */
+tbody tr:hover td {
+    background-color: rgba(6, 115, 234, 0.34);
+    cursor: pointer;
+}
+
+    tbody tr:hover td:first-child {
+        background-color: rgba(6, 115, 234, 0.34);
+        cursor: pointer;
+    }
+
+    tbody tr:hover td:last-child {
+        background-color: rgba(6, 115, 234, 0.34);
+        cursor: pointer;
+    }
+
+table tr:nth-child(even) {
+    background-color: rgb(252, 252, 252);
+}
+
+thead:after {
+    content: "";
+    display: block;
+    height: 1rem;
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 0 5px;
+}
+
+.ngx-pagination .current {
+    padding: 0.1875rem 0.625rem;
+    background: rgba(6, 115, 234, 0.34) !important;
+    color: #fefefe;
+    cursor: default;
+    border-radius: 10px !important;
+}
+
+.page_layout {
+    margin: 2rem 2rem;
+}
+
+.applicationNumber {
+    color: #01a651;
+}
+
+.stage {
+    padding: 2px 5px;
+    background-color: #870129c5;
+    font-size: 10px;
+    border-radius: 10px;
+    color: #fff;
+    width: max-content;
+}
+
+.srh {
+    display: flex;
+    justify-content: space-between;
+}
+
+    .srh i-feather:hover {
+        cursor: pointer;
+    }
+
+.tab-pane {
+    margin: 1rem;
+}
+
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    /* Allow items to wrap onto the next line if they run out of space */
+    gap: 50px;
+    /* Space between flex items (works in modern browsers) */
+}
+
+.flex-item {
+    background-color: #f0f0f0;
+    /* Light gray background for visibility */
+    flex-basis: calc(32% - 10px);
+    /* Each item will take up roughly a third of the container width minus gap */
+    padding: 2rem;
+    /* Spacing inside each flex item */
+    box-sizing: border-box;
+    /* Makes sure the padding and content do not increase the element's total width */
+    border-radius: 10px;
+    min-height: fit-content;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+    .flex-item h6 {
+        font-weight: bold;
+    }
+
+    .flex-item:hover {
+        transform: scale(1.02);
+        /* increase size by 10% */
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+        /* apply a light box shadow */
+    }
+
+/* Responsive design - for smaller screens, make each item take 50% of the width */
+@media (max-width: 600px) {
+    .flex-item {
+        flex-basis: calc(50% - 10px);
+    }
+}
+
+/* For very small screens, make each item take 100% of the width */
+@media (max-width: 400px) {
+    .flex-item {
+        flex-basis: 100%;
+    }
+}
+
+.form_input_acc {
+    margin-left: 1rem;
+    font-style: italic;
+    font-size: 12px;
+    font-weight: 300;
+}
+
+.gap {
+    width: 2rem;
+}
+
+.flex-item--content {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    margin: 10px 15px;
+    padding-right: 2rem;
+}
+
+.submitted {
+    color: black;
+    background-color: orange;
+    padding: 2px;
+    font-size: 10px;
+    border-radius: 7px;
+}
+
+.sttage {
+    color: white;
+    background-color: #01a651;
+    font-size: 10px;
+    padding: 2px;
+    border-radius: 7px;
+}
+
+.sarh {
+    display: flex;
+    justify-content: space-between;
+}
+
+    .sarh .mb-3 {
+        padding: 5px;
+        border-radius: 10px;
+        background-color: rgb(230, 230, 230);
+    }
+
+    .sarh input {
+        border: none !important;
+        background-color: transparent !important;
+    }
+
+.menu_selector {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin-left: 2rem;
+}
+
+.menu {
+    background-color: #fff;
+    padding: 5px;
+    text-align: center;
+    margin: 5px;
+    border-radius: 5px;
+    border: 1.5px solid rgba(6, 116, 234, 0.672);
+    color: rgba(6, 116, 234, 0.672);
+    margin-right: 2rem;
+    cursor: pointer;
+}

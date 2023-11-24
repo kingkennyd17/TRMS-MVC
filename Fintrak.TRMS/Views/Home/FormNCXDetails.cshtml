@@ -1,0 +1,366 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model Fintrak.TRMS.PageDTO.FormNCXDetailsPageDTO
+
+<div class="page_layout">
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" data-bs-toggle="tab" href="#form">Form</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" href="#document">Documents</a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane active" id="form">
+            <br>
+            <div class="flex-container">
+                <!-- Application Section -->
+                @if (Model.FormNCXDetails != null)
+                {
+                    <div class="flex-item">
+                        <h6>Application</h6>
+                        <div class="flex-item--content">
+                            <div class="col-5">Status:</div>
+                            <div class="submitted">@Model.FormNCXDetails.responseResult.status</div>
+                        </div>
+                        <div class="flex-item--content">
+                            <div class="col-5">Stage:</div>
+                            <div class="submitted">@Model.FormNCXDetails.responseResult.statusCode</div>
+                        </div>
+                        <div class="flex-item--content">
+                            <div class="col-5">Application Number:</div>
+                            <div class="submitted">@Model.FormNCXDetails.responseResult.applicationNumber</div>
+                        </div>
+                        <div class="flex-item--content">
+                            <div class="col-5">Form Number:</div>
+                            <div class="submitted">@Model.FormNCXDetails.responseResult.formNumber</div>
+                        </div>
+                        <div class="flex-item--content">
+                            <div class="col-5">Date Created:</div>
+                            <div class="submitted">@Model.FormNCXDetails.responseResult.createdAt</div>
+                        </div>
+                    </div>
+
+                    <!-- Applicant Information Section -->
+                    <div class="flex-item">
+                        <h6>Applicant Information</h6>
+                        <div class="flex-item--content">
+                            <div class="col-5">Name:</div>
+                            <div>@Model.FormNCXDetails.responseResult.contact?.name</div>
+                        </div>
+                        <div class="flex-item--content">
+                            <div class="col-5">TIN:</div>
+                            <div>@Model.FormNCXDetails.responseResult.contact!.bvn</div>
+                        </div>
+                        <div class="flex-item--content">
+                            <div class="col-5">Email:</div>
+                            <div>@Model.FormNCXDetails.responseResult.contact!.emailAddress</div>
+                        </div>
+                        <div class="flex-item--content">
+                            <div class="col-5">Phone:</div>
+                            <div>@Model.FormNCXDetails.responseResult.contact!.phone</div>
+                        </div>
+                        <div class="flex-item--content">
+                            <div class="col-5">Address:</div>
+                            <div>@Model.FormNCXDetails.responseResult.contact!.address</div>
+                        </div>
+                    </div>
+
+                    <!-- Bank Details Section -->
+                    <div class="flex-item">
+                        <h6>Bank Details</h6>
+                        <div class="flex-item--content">
+                            <div class="col-5">Processing bank:</div>
+                            <div>@Model.FormNCXDetails.responseResult.processingBank.name</div>
+                        </div>
+                        <div class="flex-item--content">
+                            <div class="col-5">Processing Branch in branch:</div>
+                            <div>@Model.FormNCXDetails.responseResult.processingBankBranch!.name</div>
+                        </div>
+                        <div class="flex-item--content">
+                            <div class="col-5">Naira Account Number:</div>
+                            <div>@Model.FormNCXDetails.responseResult.accountNumber</div>
+                        </div>
+                        <div class="flex-item--content">
+                            <div class="col-5">Exchange Rate:</div>
+                            <div>@Model.FormNCXDetails.responseResult.exchangeRate</div>
+                        </div>
+                        <div class="flex-item--content">
+                            <div class="col-5">Estimated Value of Goods (Naira):</div>
+                            <div>@Model.FormNCXDetails.responseResult.estimatedValueOfGoodsNaira</div>
+                        </div>
+                        <div class="flex-item--content">
+                            <div class="col-5">Estimated Value of Goods (Dollars):</div>
+                            <div>@Model.FormNCXDetails.responseResult.estimatedValueOfGoodsDollar</div>
+                        </div>
+                    </div>
+
+                    <!-- Consignee Information Section -->
+                    <div class="flex-item">
+                        <h6>Consignee Information</h6>
+                        <div class="flex-item--content">
+                            <div class="col-5">Name:</div>
+                            <div>@Model.FormNCXDetails.responseResult.consigneeName</div>
+                        </div>
+                        <div class="flex-item--content">
+                            <div class="col-5">Email:</div>
+                            <div>@Model.FormNCXDetails.responseResult.consigneeEmail</div>
+                        </div>
+                        <div class="flex-item--content">
+                            <div class="col-5">Phone:</div>
+                            <div>@Model.FormNCXDetails.responseResult.consigneePhone</div>
+                        </div>
+                        <div class="flex-item--content">
+                            <div class="col-5">Address Line 1:</div>
+                            <div>@Model.FormNCXDetails.responseResult.consigneeAddressLine1</div>
+                        </div>
+                        <div class="flex-item--content">
+                            <div class="col-5">Address Line 2:</div>
+                            <div>@Model.FormNCXDetails.responseResult.consigneeAddressLine2</div>
+                        </div>
+                        <div class="flex-item--content">
+                            <div class="col-5">City:</div>
+                            <div>@Model.FormNCXDetails.responseResult.consigneeAddressCity</div>
+                        </div>
+                        <div class="flex-item--content">
+                            <div class="col-5">State:</div>
+                            <div>@Model.FormNCXDetails.responseResult.consigneeAddressState</div>
+                        </div>
+                        <div class="flex-item--content">
+                            <div class="col-5">Country:</div>
+                            <div>@Model.FormNCXDetails.responseResult.consigneeCountry!.name</div>
+                        </div>
+                    </div>
+
+                    <!-- Shipment Details Section -->
+                    <div class="flex-item">
+                        <h6>Shipment Details</h6>
+                        <div class="flex-item--content">
+                            <div class="col-5">
+                                Purpose of Shipment:
+                            </div>
+                            <div>@Model.FormNCXDetails.responseResult.shipmentPurpose</div>
+                        </div>
+                        <div class="flex-item--content">
+                            <div class="col-5">
+                                Port of Shipment:
+                            </div>
+                            <div>@Model.FormNCXDetails.responseResult.portShipment?.name</div>
+                        </div>
+                        <div class="flex-item--content">
+                            <div class="col-5">
+                                Destination Country:
+                            </div>
+                            <div>@Model.FormNCXDetails.responseResult.portDischarge?.country?.name</div>
+                        </div>
+                        <div class="flex-item--content">
+                            <div class="col-5">
+                                Port of Discharge:
+                            </div>
+                            <div>@Model.FormNCXDetails.responseResult.portDischarge?.name</div>
+                        </div>
+                        <div class="flex-item--content">
+                            <div class="col-5">
+                                Expected Shipment Date:
+                            </div>
+                            <div>@Model.FormNCXDetails.responseResult.expectedShipmentDate | date</div>
+                        </div>
+                        <div class="flex-item--content">
+                            <div class="col-5">
+                                By Order of:
+                            </div>
+                            <div>@Model.FormNCXDetails.responseResult.byOrderOf</div>
+                        </div>
+                        <div class="flex-item--content">
+                            <div class="col-5">
+                                Shipper Name:
+                            </div>
+                            <div>@Model.FormNCXDetails.responseResult.shipperName</div>
+                        </div>
+                        <div class="flex-item--content">
+                            <div class="col-5">
+                                Shipper Phone:
+                            </div>
+                            <div>@Model.FormNCXDetails.responseResult.shipperPhone</div>
+                        </div>
+                        <div class="flex-item--content">
+                            <div class="col-5">
+                                Shipper Address:
+                            </div>
+                            <div>@Model.FormNCXDetails.responseResult.shipperAddress</div>
+                        </div>
+                    </div>
+                }
+
+                <!-- Shipping / Bill of Lading Section -->
+                @if (Model.FormNCXDetails != null)
+                {
+                    <div class="flex-item">
+                        <h6>Shipping / Bill of Lading</h6>
+                        <div class="flex-item--content">
+                            <div class="col-5">Shipping Line:</div>
+                            <div>@Model.FormNCXDetails.responseResult.shippingLine</div>
+                        </div>
+                        <!-- Continue rendering other properties in the Shipping / Bill of Lading section -->
+                    </div>
+                }
+
+                <!-- Items Table Section -->
+                <div class="item-table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th style="width: 40%;">HS Code</th>
+                                <th>Packaging Mode</th>
+                                <th>Unit of Measurement</th>
+                                <th>Quantity</th>
+                                <th>Net Weight</th>
+                                <th>Gross Weight</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.FormNCXDetails != null)
+                            {
+                                @foreach (var item in Model.FormNCXDetails.responseResult.items)
+                                {
+                                    <tr>
+                                        <td>@(
+                                            Model.FormNCXDetails.responseResult.items.IndexOf(item) + 1
+                                            )</td>
+                                        <td style="width: 40%;">
+                                            <p>@item.hsCode?.name</p>
+                                            <small>@item.hsCode?.description</small>
+                                        </td>
+                                        <td>@item.packagingMode?.name</td>
+                                        <td>@item.unitOfMeasurement?.name</td>
+                                        <td>@item.quantity</td>
+                                        <td>@item.netWeight</td>
+                                        <td>@item.grossWeight</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                    <div class="total_value">
+                        @if (Model.FormNCXDetails != null)
+                        {
+                            <div><span>Total Quantity:   </span><h4>@Model.FormNCXDetails.responseResult.totalQuantity</h4></div>
+                            <div><span>Total Net Weight:   </span><h4>@Model.FormNCXDetails.responseResult.totalNetWeight</h4></div>
+                            <div><span>Total Gross Weight:   </span><h4>@Model.FormNCXDetails.responseResult.totalGrossWeight</h4></div>
+                        }
+                    </div>
+                </div>
+
+                <br>
+                <br>
+                <!-- Actions Section -->
+                <div style="display: flex; justify-content: space-between;">
+
+                    <form asp-controller="Home" asp-action="ApproveFormNCX" method="post">
+                        <div class="accordion-body">
+                            <div class="flex-item col-2">
+                                @if (Model.FormNCXDetails != null)
+                                {
+                                    <input type="hidden" name="applicationId" value="@Model.FormNCXDetails.responseResult.applicationNumber" />
+                                }
+                                else
+                                {
+                                    <input type="hidden" name="applicationId" value="AF2023507721" />
+                                }
+                            </div>
+                            <div class="gap"></div>
+                            <div class="col-5">
+                                <h6>Actions</h6>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="flexRadioDefault1"
+                                           asp-for="ADBReviewerRequest.Approved" name="Approved" value="true">
+                                    <label class="form-check-label" for="flexRadioDefault1">
+                                        ADB Approval
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="flexRadioDefault2"
+                                           asp-for="ADBReviewerRequest.Approved" name="Approved" value="false">
+                                    <label class="form-check-label" for="flexRadioDefault2">
+                                        ADB Rejection
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="gap"></div>
+
+                            <div>
+                                <label asp-for="ADBReviewerRequest.DaemonReviewerName">Daemon Reviewer Name:</label>
+                                <input asp-for="ADBReviewerRequest.DaemonReviewerName" name="DaemonReviewerName" />
+                            </div>
+                            <br />
+
+                            <div>
+                                <label asp-for="ADBReviewerRequest.DaemonSupervisorName">Daemon Supervisor Name:</label>
+                                <input asp-for="ADBReviewerRequest.DaemonSupervisorName" name="DaemonSupervisorName" />
+                            </div>
+                            <br />
+
+                            <div>
+                                <label asp-for="ADBReviewerRequest.RejectionReasonCode">Rejection Reason Code:</label>
+                                <input asp-for="ADBReviewerRequest.RejectionReasonCode" name="RejectionReasonCode" />
+                            </div>
+                            <br />
+                            <div class="gap"></div>
+                            <div>
+                                <h6>Note</h6>
+                                <textarea name="note" id="note" cols="100" rows="5" class="custom-border" placeholder="Note" asp-for="ADBReviewerRequest.Note"></textarea>
+                                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                    @*<button type="button" class="btn btn-outline-secondary">Cancel</button>*@
+                                    <button class="btn btn-primary" type="submit">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Documents Section -->
+        <div class="tab-pane fade" id="document">
+            <div class="item-table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>S/N</th>
+                            <th style="width: 40%;">Label</th>
+                            <th>File Name</th>
+                            <th>Date Created</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.FormNCXDetails != null)
+                        {
+                            @foreach (var item in Model.FormNCXDetails.responseResult.attachments)
+                            {
+                                <tr>
+                                    <td>@(
+                                        Model.FormNCXDetails.responseResult.attachments.IndexOf(item) + 1
+                                        )</td>
+                                    <td style="width: 40%;">@item.file?.label</td>
+                                    <td>@item.file?.fileName</td>
+                                    <td>@item.createdAt?</td>
+                                    <td>
+                                        <div style="display: flex; justify-content: space-around;">
+                                            <i-feather name="eye" onclick="viewFile('@item.file?.fileId')"></i-feather>
+                                            <i-feather name="download" onclick="downloadFile('@item.file?.fileId')"></i-feather>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
