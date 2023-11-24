@@ -1,4 +1,4 @@
-﻿using Fintrak.TRMS.Base;
+using Fintrak.TRMS.Base;
 using Fintrak.TRMS.Models;
 using System.Threading.Tasks;
 
