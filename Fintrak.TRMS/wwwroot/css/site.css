@@ -16,3 +16,14 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+
+//form A details
+
+.accordion-body{
+    display: flex;
+}
+
+.custom-border {
+    border: 2px solid rgba(6, 115, 234, 0.34);
+}
