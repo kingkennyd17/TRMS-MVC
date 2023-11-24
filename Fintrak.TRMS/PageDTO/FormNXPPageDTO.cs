@@ -1,4 +1,4 @@
-﻿using Fintrak.TRMS.FormNXPResponseDto;
+using Fintrak.TRMS.FormNXPResponseDto;
 using Fintrak.TRMS.Models;
 
 namespace Fintrak.TRMS.PageDTO
@@ -10,5 +10,6 @@ namespace Fintrak.TRMS.PageDTO
         public ProcessedNXPResponseDto? ProcessedFormNXP { get; set; }
         public ShipmentFormDetails? ShipmentFormDetail { get; set; }
         public SingleShipmentResponseDto? NXPShipments { get; set; }
+        public PendingNXPShipmentResponseDto? PendingNXPShipments { get; set; }
     }
 }
