@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Fintrak.TRMS.FormNXPResponseDto
 {
@@ -34,9 +34,9 @@ namespace Fintrak.TRMS.FormNXPResponseDto
         public double nessLevyPayable { get; set; }
         public string ciType { get; set; }
         public string ciNumber { get; set; }
-        public int createdAt { get; set; }
-        public double totalDollarFoB { get; set; }
-        public int updatedAt { get; set; }
+        public long? createdAt { get; set; }
+        public double? totalDollarFoB { get; set; }
+        public long? updatedAt { get; set; }
         public string formApplicationNumber { get; set; }
         public string applicantName { get; set; }
         public string formFormNumber { get; set; }
