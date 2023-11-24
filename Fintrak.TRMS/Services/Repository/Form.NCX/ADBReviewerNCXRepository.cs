@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Fintrak.TRMS.Base;
 using Fintrak.TRMS.Models;
 using Fintrak.TRMS.Services.Interface;
@@ -7,7 +7,7 @@ using System;
 
 namespace Fintrak.TRMS.Services
 {
-    public class ADBReviewerNCXRepository : BaseRepository<ADBReviewerRequestNCX, ADBReviewerResponse>, IADBReviewerNCXRepository
+    public class ADBReviewerNCXRepository : BaseRepository<ADBReviewerRequest, ADBReviewerResponse>, IADBReviewerNCXRepository
     {
         private readonly APIService _apiService;
 
