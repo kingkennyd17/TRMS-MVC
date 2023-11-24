@@ -1,8 +1,7 @@
-﻿@{
+@{
     ViewData["Title"] = "Home Page";
 }
 @model Fintrak.TRMS.PageDTO.FormADetailsPageDTO
-
 <div class="page_layout">
     <ul class="nav nav-tabs">
         <li class="nav-item">
@@ -11,59 +10,281 @@
         <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#document">Documents</a>
         </li>
-        <li class="nav-item">
+        @*<li class="nav-item">
             <a class="nav-link" href="@Url.Action("Index", "Home")">Form A List</a>
-        </li>
+        </li>*@
     </ul>
 
     <!-- Tab panes -->
+    @if (Model.FormADetails != null)
+    {
     <div class="tab-content">
         <div class="tab-pane active" id="form">
             <br>
             <div class="flex-container">
                 <!-- ... Other content ... -->
-
                 <!-- Example of Razor syntax usage -->
-                @if (Model.FormADetails != null)
+                <div class="flex-item">
+                    <h6>Application</h6>
+
+                    <div class="flex-item--content">
+                        <div class="col-5">
+                            Status:
+                        </div>
+                        <div class="submitted">@Model.FormADetails.ResponseResult.Status</div>
+                    </div>
+                    <div class="flex-item--content">
+                        <div class="col-5">
+                            Stage:
+                        </div>
+                        <div class="submitted">@Model.FormADetails.ResponseResult.StatusCode</div>
+                    </div>
+                    <div class="flex-item--content">
+                        <div class="col-5">
+                            Application Number:
+                        </div>
+                        <div class="submitted">@Model.FormADetails.ResponseResult.ApplicationNumber</div>
+                    </div>
+                    @*<div class="flex-item--content">
+                <div class="col-5">
+                    Form Number:
+                </div>
+                <div class="submitted">@Model.ResponseResult.FormNumber</div>
+            </div>*@
+                    <div class="flex-item--content">
+                        <div class="col-5">
+                            Date Created:
+                        </div>
+                        <div class="submitted">
+                            @(
+                                DateTimeOffset.FromUnixTimeMilliseconds(Model.FormADetails.ResponseResult.CreatedAt ?? 0).UtcDateTime.ToString("dd MMM yyyy")
+                            )
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-item">
+                    <h6>Applicant Information</h6>
+
+                    <div class="flex-item--content">
+                        <div class="col-5">
+                            Name:
+                        </div>
+                        <div class="submitted">@Model.FormADetails.ResponseResult.ApplicantName</div>
+                    </div>
+                    <div class="flex-item--content">
+                        <div class="col-5">
+                            BVN:
+                        </div>
+                        <div class="submitted">@Model.FormADetails.ResponseResult.ApplicantTINBVN</div>
+                    </div>
+                    <div class="flex-item--content">
+                        <div class="col-5">
+                            Email:
+                        </div>
+                        <div class="submitted">@Model.FormADetails.ResponseResult.ApplicantEmail</div>
+                    </div>
+                    <div class="flex-item--content">
+                        <div class="col-5">
+                            Phone:
+                        </div>
+                        <div class="submitted">@Model.FormADetails.ResponseResult.ApplicantPhone</div>
+                    </div>
+                    <div class="flex-item--content">
+                        <div class="col-5">
+                            Address:
+                        </div>
+                        <div class="submitted">@Model.FormADetails.ResponseResult.ApplicantAddress</div>
+                    </div>
+                </div>
+                <div class="flex-item">
+                    <h6>Bank Details</h6>
+
+                    <div class="flex-item--content">
+                        <div class="col-5">
+                            Processing bank:
+                        </div>
+                        <div class="submitted">@Model.FormADetails.ResponseResult.ProcessingBank.Name</div>
+                    </div>
+                    <div class="flex-item--content">
+                        <div class="col-5">
+                            Processing Branch:
+                        </div>
+                        <div class="submitted">@Model.FormADetails.ResponseResult.ProcessingBankBranch.Name</div>
+                    </div>
+                    <div class="flex-item--content">
+                        <div class="col-5">
+                            Naira Account Number:
+                        </div>
+                        <div class="submitted">@Model.FormADetails.ResponseResult.ProcessingFeeAccountNumber</div>
+                    </div>
+                </div>
+                <div class="flex-item">
+                    <h6>Trade Services</h6>
+
+                    <div class="flex-item--content">
+                        <div class="col-5">
+                            Is Valid for Forex:
+                        </div>
+                        <div class="submitted">@Model.FormADetails.ResponseResult.ValidForForex</div>
+                    </div>
+                    <div class="flex-item--content">
+                        <div class="col-5">
+                            Trade Categories:
+                        </div>
+                        <div class="submitted">@Model.FormADetails.ResponseResult.TransactionPurpose.TradeCategory</div>
+                    </div>
+                    <div class="flex-item--content">
+                        <div class="col-5">
+                            Transaction Purpose:
+                        </div>
+                        <div class="submitted">@Model.FormADetails.ResponseResult.TransactionPurposeOther</div>
+                    </div>
+                </div>
+
+                <!-- Example of Razor syntax in ngFor loop -->
+                @foreach (var d in Model.FormADetails.ResponseResult.Beneficiaries)
                 {
                     <div class="flex-item">
-                        <h6>Application</h6>
-
+                        <h6>Trade Services</h6>
                         <div class="flex-item--content">
                             <div class="col-5">
-                                Status:
+                                Name:
                             </div>
-                            <div class="submitted">@Model.FormADetails.ResponseResult.Status</div>
+                            <div>@d.Name</div>
                         </div>
-                        <!-- ... Other content ... -->
-
-                        <!-- Example of Razor syntax in ngFor loop -->
-                        @foreach (var d in Model.FormADetails.ResponseResult.Beneficiaries)
-                        {
-                            <div>
-                                <div class="flex-item--content">
-                                    <div class="col-5">
-                                        Name:
-                                    </div>
-                                    <div>@d.Name</div>
-                                </div>
-                                <div class="flex-item--content">
-                                    <div class="col-5">
-                                        Email:
-                                    </div>
-                                    <div>@d.Email</div>
-                                </div>
-                                <!-- ... Other content ... -->
+                        <div class="flex-item--content">
+                            <div class="col-5">
+                                Email:
                             </div>
-                        }
-
-                        <!-- ... Other content ... -->
-
+                            <div>@d.Email</div>
+                        </div>
+                        <div class="flex-item--content">
+                            <div class="col-5">
+                                Phone:
+                            </div>
+                            <div>@d.Phone</div>
+                        </div>
+                        <div class="flex-item--content">
+                            <div class="col-5">
+                                Address Line 1:
+                            </div>
+                            <div>@d.AddressLine1</div>
+                        </div>
+                        <div class="flex-item--content">
+                            <div class="col-5">
+                                Address Line 2:
+                            </div>
+                            <div>@d.AddressLine2</div>
+                        </div>
+                        <div class="flex-item--content">
+                            <div class="col-5">
+                                City:
+                            </div>
+                            <div>@d.City</div>
+                        </div>
+                        <div class="flex-item--content">
+                            <div class="col-5">
+                                State:
+                            </div>
+                            <div>@d.State</div>
+                        </div>
+                        <div class="flex-item--content">
+                            <div class="col-5">
+                                Country:
+                            </div>
+                            <div>@d.Country</div>
+                        </div>
                     </div>
-
-                    <!-- ... Other content ... -->
                 }
 
+                @foreach (var d in Model.FormADetails.ResponseResult.Beneficiaries)
+                {
+                    <div class="flex-item">
+                        <h6>Bank Account Information</h6>
+                        <div class="flex-item--content">
+                            <div class="col-5">
+                                Account Name:
+                            </div>
+                            <div>@d.BankAccountName</div>
+                        </div>
+                        <div class="flex-item--content">
+                            <div class="col-5">
+                                Bank Address:
+                            </div>
+                            <div>@d.BankAccountAddress</div>
+                        </div>
+                        <div class="flex-item--content">
+                            <div class="col-5">
+                                IBAN:
+                            </div>
+                            <div>@d.BankAccountIban</div>
+                        </div>
+                        <div class="flex-item--content">
+                            <div class="col-5">
+                                Swift Code:
+                            </div>
+                            <div>@d.BankAccountSwiftCode</div>
+                        </div>
+                        <div class="flex-item--content">
+                            <div class="col-5">
+                                Account Number:
+                            </div>
+                            <div>@d.BankAccountNumber</div>
+                        </div>
+                        <div class="flex-item--content">
+                            <div class="col-5">
+                                Correspondence Bank Name:
+                            </div>
+                            <div>@d.BankAccountCorrespondenceBankName</div>
+                        </div>
+                        <div class="flex-item--content">
+                            <div class="col-5">
+                                Correspondence Bank Address:
+                            </div>
+                            <div>@d.BankAccountCorrespondenceBankAddress</div>
+                        </div>
+                        <div class="flex-item--content">
+                            <div class="col-5">
+                                Correspondence Bank Swift Code:
+                            </div>
+                            <div>@d.BankAccountCorrespondenceBankSwiftCode</div>
+                        </div>
+                    </div>
+                }
+
+
+                @foreach (var d in Model.FormADetails.ResponseResult.Beneficiaries)
+                {
+                    <div class="flex-item">
+                        <h6>Request Information</h6>
+                        <div class="flex-item--content">
+                            <div class="col-5">
+                                Amount Requested:
+                            </div>
+                            <div>@d.AmountRequested</div>
+                        </div>
+                    </div>
+                }
+
+
+                @foreach (var d in Model.FormADetails.ResponseResult.Beneficiaries)
+                {
+                    <div class="flex-item">
+                        <h6>Student Information</h6>
+                        <div class="flex-item--content">
+                            <div class="col-5">
+                                Name:
+                            </div>
+                            <div>@d.StudentName</div>
+                        </div>
+                        <div class="flex-item--content">
+                            <div class="col-5">
+                                Passport Number:
+                            </div>
+                            <div>@d.PassportNumber</div>
+                        </div>
+                    </div>
+                }
             </div>
             <br>
             <br>
@@ -76,7 +297,7 @@
                         </button>
                     </h2>
                     <div id="flush-collapseOne" class="accordion-collapse" aria-labelledby="flush-headingOne"
-                        data-parent="#accordionInput">
+                         data-parent="#accordionInput">
 
                         <ul class="nav nav-tabs" id="formTabs">
                             <li class="nav-item">
@@ -93,15 +314,11 @@
                                         <div class="flex-item col-2">
                                             @if (Model.FormADetails != null)
                                             {
-                                                <input type="hidden" name="applicationId" value="@Model.FormADetails.ResponseResult.ApplicationNumber" />
-                                            }
-                                            else
-                                            {
-                                                <input type="hidden" name="applicationId" value="AF2023507721" />
+                                                <input type="hidden" name="applicationId" value="@Model.FormADetails.ResponseResult.Id" />
                                             }
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="ADB">
+                                            <input class="form-check-input" type="checkbox" value="no" asp-for="adb">
                                             <label class="form-check-label" for="adbreview">
                                                 ADB Reviewer
                                             </label>
@@ -162,13 +379,8 @@
                                             <h6>Beneficiary</h6>
                                             @if (Model.FormADetails != null)
                                             {
-                                                <input type="hidden" name="applicationId" value="@Model.FormADetails.ResponseResult.ApplicationNumber" />
+                                                <input type="hidden" name="applicationId" value="@Model.FormADetails.ResponseResult.Id" />
                                                 <input type="hidden" asp-for="DisbursementRequest.Beneficiaries" name="Beneficiaries" value="@Model.FormADetails.ResponseResult.Beneficiaries">
-                                            }
-                                            else
-                                            {
-                                                <input type="hidden" name="applicationId" value="AF2023507721" />
-                                                <input type="hidden" asp-for="DisbursementRequest.Beneficiaries" name="Beneficiaries" value="testing the mic">
                                             }
                                             <!-- Example of Razor syntax in ngFor loop -->
                                             @if (Model.FormADetails != null)
@@ -252,4 +464,5 @@
         </div>
         <div class="tab-pane fade" id="document">...</div>
     </div>
+    }
 </div>
