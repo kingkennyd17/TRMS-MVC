@@ -1,4 +1,4 @@
-﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using AspNetCoreHero.ToastNotification.Abstractions;
 using Fintrak.TRMS.Models;
 using Fintrak.TRMS.PageDTO;
 using Fintrak.TRMS.Services.Interface;
@@ -10,7 +10,7 @@ using System.Diagnostics;
 
 namespace Fintrak.TRMS.Controllers
 {
-    //[Authorize(AuthenticationSchemes = "ExternalApiBearer")]
+    [Authorize(AuthenticationSchemes = "ExternalApiBearer")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -26,21 +26,24 @@ namespace Fintrak.TRMS.Controllers
         INXPFormDetailsRepository _nXPFormDetailsRepository;
         ISingleShipmentRepository _singleShipmentRepository;
         IShipmentFormDetailsRepository _shipmentFormDetailsRepository;
+        IPendingNXPShipmentRepository _pendingNXPShipmentRepository;
         IApprovalRejectionRepository _approvalRejectionRepository;
         IDisbursementReviewerRepository _disbursementReviewerRepository;
         IADBReviewerRepository _adbReviewerRepository;
         IADBReviewerNCXRepository _adbReviewerNCXRepository;
         ICancelADBReviewerNCXRepository _cancelADBReviewerNCXRepository;
+        IFormNCXDetailsRepository _formNCXDetailsRepository;
 
         public HomeController(ILogger<HomeController> logger, IPendingApplicationRepository pendingApplicationRepository,
             IProcessedApplicationRepository processedApplicationRepository, IFormADetailsRepository formADetailsRepository, 
             TokenStorageService tokenStorageService, IProcessedApplicationNCXRepository processedApplicationNCXRepository,
             IPendingApplicationNCXRepository pendingApplicationNCXRepository, IPendingFormNXPRepository pendingFormNXPRepository,
-            IProcessedNXPRepository processedNXPRepository, INXPFormDetailsRepository nXPFormDetailsRepository, INotyfService notyf,
+            IProcessedNXPRepository processedNXPRepository, INXPFormDetailsRepository nXPFormDetailsRepository,
             ISingleShipmentRepository singleShipmentRepository, IShipmentFormDetailsRepository shipmentFormDetailsRepository,
-            IApprovalRejectionRepository approvalRejectionRepository, IDisbursementReviewerRepository disbursementReviewerRepository, 
-            IADBReviewerRepository adbReviewerRepository, IADBReviewerNCXRepository adbReviewerNCXRepository,
-            ICancelADBReviewerNCXRepository cancelADBReviewerNCXRepository)
+            IPendingNXPShipmentRepository pendingNXPShipmentRepository, INotyfService notyf, IApprovalRejectionRepository approvalRejectionRepository,
+            IDisbursementReviewerRepository disbursementReviewerRepository, IADBReviewerRepository adbReviewerRepository,
+            IADBReviewerNCXRepository adbReviewerNCXRepository, ICancelADBReviewerNCXRepository cancelADBReviewerNCXRepository,
+            IFormNCXDetailsRepository formNCXDetailsRepository)
         {
             _logger = logger;
             _pendingApplicationRepository = pendingApplicationRepository;
@@ -56,63 +59,170 @@ namespace Fintrak.TRMS.Controllers
             _nXPFormDetailsRepository = nXPFormDetailsRepository;
             _singleShipmentRepository = singleShipmentRepository;
             _shipmentFormDetailsRepository = shipmentFormDetailsRepository;
-            _approvalRejectionRepository = approvalRejectionRepository;
+            _pendingNXPShipmentRepository = pendingNXPShipmentRepository;
             _notyf = notyf;
+            _approvalRejectionRepository = approvalRejectionRepository;
             _disbursementReviewerRepository = disbursementReviewerRepository;
             _adbReviewerRepository = adbReviewerRepository;
             _adbReviewerNCXRepository = adbReviewerNCXRepository;
             _cancelADBReviewerNCXRepository = cancelADBReviewerNCXRepository;
+            _formNCXDetailsRepository = formNCXDetailsRepository;
         }
 
         public IActionResult Index(string applicationId = "")
         {
-            //var token = _tokenStorageService.RetrieveToken();
             FormAPageDTO formAPageDTO = new FormAPageDTO();
-            //formAPageDTO.PendingFormA = _pendingApplicationRepository.PendingApplication(applicationId, token).Result;
-            //formAPageDTO.ProcessedFormA = _processedApplicationRepository.ProcessedApplication(applicationId, token).Result;
-            return View(formAPageDTO);
+            try
+            {
+                var token = _tokenStorageService.RetrieveToken();
+                formAPageDTO.PendingFormA = _pendingApplicationRepository.PendingApplication(applicationId, token).Result;
+                formAPageDTO.ProcessedFormA = _processedApplicationRepository.ProcessedApplication(applicationId, token).Result;
+                return View(formAPageDTO);
+            }
+            catch (Exception ex)
+            {
+                string innerMessage = ex.InnerException.Message;
+
+                if (int.TryParse(innerMessage, out int statusCode))
+                {
+                    object responseModel = ex.InnerException.InnerException.Message.ToString();
+                    _notyf.Error(statusCode + " | " + responseModel); 
+                    return View(formAPageDTO);
+                }
+                else
+                {
+                    _notyf.Error(500 + " | " + ex.InnerException.Message);
+                    return View(formAPageDTO);
+                }
+            }
         }
 
         public IActionResult FormNCX(string applicationId = "")
         {
-            //var token = _tokenStorageService.RetrieveToken();
             FormNCXPageDTO formNCXPageDTO = new FormNCXPageDTO();
-            //formNCXPageDTO.PendingFormNCX = _pendingApplicationNCXRepository.PendingApplicationNCX(applicationId, token).Result;
-            //formNCXPageDTO.ProcessedFormNCX = _processedApplicationNCXRepository.ProcessedApplicationNCX(applicationId, token).Result;
-            return View(formNCXPageDTO);
+            try
+            {
+                var token = _tokenStorageService.RetrieveToken();
+                formNCXPageDTO.PendingFormNCX = _pendingApplicationNCXRepository.PendingApplicationNCX(applicationId, token).Result;
+                formNCXPageDTO.ProcessedFormNCX = _processedApplicationNCXRepository.ProcessedApplicationNCX(applicationId, token).Result;
+                return View(formNCXPageDTO);
+            }
+            catch (Exception ex)
+            {
+                string innerMessage = ex.InnerException.Message;
+
+                if (int.TryParse(innerMessage, out int statusCode))
+                {
+                    object responseModel = ex.InnerException.InnerException.Message.ToString();
+                    _notyf.Error(statusCode + " | " + responseModel);
+                    return View(formNCXPageDTO);
+                }
+                else
+                {
+                    _notyf.Error(500 + " | " + ex.InnerException.Message);
+                    return View(formNCXPageDTO);
+                }
+            }
         }
 
         public IActionResult FormNXP(string applicationId = "")
         {
-            //var token = _tokenStorageService.RetrieveToken();
             FormNXPPageDTO formNXPPageDTO = new FormNXPPageDTO();
-            //formNXPPageDTO.PendingFormNXP = _pendingFormNXPRepository.GetPendingFormNXP(applicationId, token).Result;
-            //formNXPPageDTO.ProcessedFormNXP = _processedNXPRepository.GetProcessedNXP(applicationId, token).Result;
+            try
+            {
+                var token = _tokenStorageService.RetrieveToken();
+                formNXPPageDTO.PendingFormNXP = _pendingFormNXPRepository.GetPendingFormNXP(applicationId, token).Result;
+                formNXPPageDTO.ProcessedFormNXP = _processedNXPRepository.GetProcessedNXP(applicationId, token).Result;
 
-            //formNXPPageDTO.FormNXPDetail = _nXPFormDetailsRepository.GetNXPFormDetails(applicationId, token).Result;
-            //formNXPPageDTO.NXPShipments = _singleShipmentRepository.GetSingleShipment(applicationId, token).Result;
-            //formNXPPageDTO.ShipmentFormDetail = _shipmentFormDetailsRepository.GetShipmentFormDetails(applicationId, token).Result;
-            return View(formNXPPageDTO);
+                //formNXPPageDTO.FormNXPDetail = _nXPFormDetailsRepository.GetNXPFormDetails(applicationId, token).Result;
+                //formNXPPageDTO.NXPShipments = _singleShipmentRepository.GetSingleShipment(applicationId, token).Result;
+                formNXPPageDTO.PendingNXPShipments = _pendingNXPShipmentRepository.GetPendingNXPShipment(applicationId, token).Result;
+                //formNXPPageDTO.ShipmentFormDetail = _shipmentFormDetailsRepository.GetShipmentFormDetails(applicationId, token).Result;
+                return View(formNXPPageDTO);
+            }
+            catch (Exception ex)
+            {
+                string innerMessage = ex.InnerException.Message;
+
+                if (int.TryParse(innerMessage, out int statusCode))
+                {
+                    object responseModel = ex.InnerException.InnerException.Message.ToString();
+                    _notyf.Error(statusCode + " | " + responseModel);
+                    return View(formNXPPageDTO);
+                }
+                else
+                {
+                    _notyf.Error(500 + " | " + ex.InnerException.Message);
+                    return View(formNXPPageDTO);
+                }
+            }
         }
 
-        public IActionResult FormADetails(string applicationId)
+        public IActionResult FormNXPDetails(string applicationId)
         {
-            //var token = _tokenStorageService.RetrieveToken();
+            FormNXPPageDTO formNXPPageDTO = new FormNXPPageDTO();
+            try
+            {
+                var token = _tokenStorageService.RetrieveToken();
+                formNXPPageDTO.FormNXPDetail = _nXPFormDetailsRepository.GetNXPFormDetails(applicationId, token).Result;
+                formNXPPageDTO.ShipmentFormDetail = _shipmentFormDetailsRepository.GetShipmentFormDetails(applicationId, token).Result; // Replace with your actual details retrieval logic
+                return View(formNXPPageDTO); // Assuming _Details.cshtml is your details view
+            }
+            catch (Exception ex)
+            {
+                string innerMessage = ex.InnerException.Message;
+
+                if (int.TryParse(innerMessage, out int statusCode))
+                {
+                    object responseModel = ex.InnerException.InnerException.Message.ToString();
+                    _notyf.Error(statusCode + " | " + responseModel); 
+                    return RedirectToAction("FormNXP", "Home");
+                }
+                else
+                {
+                    _notyf.Error(500 + " | " + ex.InnerException.Message);
+                    return RedirectToAction("FormNXP", "Home");
+                }
+            }
+        }
+
+        public IActionResult FormADetails(string applicationId = "")
+        {
             FormADetailsPageDTO details = new FormADetailsPageDTO();
-            //details = _formADetailsRepository.GetFormADetails(applicationId, token).Result; // Replace with your actual details retrieval logic
-            return View(details); // Assuming _Details.cshtml is your details view
+            try
+            {
+                var token = _tokenStorageService.RetrieveToken();
+                details.FormADetails = _formADetailsRepository.GetFormADetails(applicationId, token).Result; // Replace with your actual details retrieval logic
+                return View(details); // Assuming _Details.cshtml is your details view
+            }
+            catch (Exception ex)
+            {
+                string innerMessage = ex.InnerException.Message;
+
+                if (int.TryParse(innerMessage, out int statusCode))
+                {
+                    object responseModel = ex.InnerException.InnerException.Message.ToString();
+                    _notyf.Error(statusCode + " | " + responseModel);
+                }
+                else
+                {
+                    object responseModel = ex.InnerException.Message.ToString();
+                    _notyf.Error(500 + " | " + responseModel);
+                }
+            }
+            return View(details);
         }
 
         [HttpPost]
-        public IActionResult ApprovalFormA (ApprovalRejectionRequest approvalFormA, string applicationId, string ADB)
+        public IActionResult ApprovalFormA(ApprovalRejectionRequest approvalFormA, string applicationId, string adb)
         {
             try
             {
                 string response = "";
-                //var token = _tokenStorageService.RetrieveToken();
-                if (ADB == "no")
+                var token = _tokenStorageService.RetrieveToken();
+                if (adb == "false")
                 {
-                    response = _approvalRejectionRepository.ApprovalRejection(approvalFormA, applicationId, "ghvghvghn").Result.ResponseResult;
+                    response = _approvalRejectionRepository.ApprovalRejection(approvalFormA, applicationId, token).Result.ResponseResult;
                 }
                 else
                 {
@@ -122,7 +232,7 @@ namespace Fintrak.TRMS.Controllers
                     cancelRequest.Note = approvalFormA.Note;
                     cancelRequest.RejectionReasonCode = approvalFormA.RejectionReasonCode;
                     cancelRequest.DaemonSupervisorName = approvalFormA.DaemonSupervisorName;
-                    response = _adbReviewerRepository.ADBReviewer(cancelRequest, applicationId, "ghvghvghn").Result.ResponseResult;
+                    response = _adbReviewerRepository.ADBReviewer(cancelRequest, applicationId, token).Result.responseMessage;
                 }
                 _notyf.Error("Fintrak | " + response);
                 return RedirectToAction("FormADetails", new { applicationId = applicationId });
@@ -150,12 +260,12 @@ namespace Fintrak.TRMS.Controllers
             try
             {
                 string response = "";
-                //var token = _tokenStorageService.RetrieveToken();
+                var token = _tokenStorageService.RetrieveToken();
                 if (disbursement.RejectionStakeholder == "Approved")
                 {
                     disbursement.Approved = true;
                     disbursement.RejectionStakeholder = null;
-                    response = _disbursementReviewerRepository.DisbursementReviewer(disbursement, applicationId, "ghvghvghn").Result.ResponseResult;
+                    response = _disbursementReviewerRepository.DisbursementReviewer(disbursement, applicationId, token).Result.ResponseResult;
                 }
                 else
                 {
@@ -164,7 +274,7 @@ namespace Fintrak.TRMS.Controllers
                     rejectDisbursement.DisbursementsCloseOut = true;
                     rejectDisbursement.RejectionStakeholder = disbursement.RejectionStakeholder;
                     rejectDisbursement.RejectionReasonCode = reasonCode;
-                    response = _disbursementReviewerRepository.RejectDisbursement(rejectDisbursement, applicationId, "ghvghvghn").Result.ResponseResult;
+                    response = _disbursementReviewerRepository.RejectDisbursement(rejectDisbursement, applicationId, token).Result.ResponseResult;
                 }
                 _notyf.Success("Fintrak | " + response);
                 return RedirectToAction("FormADetails", new { applicationId = applicationId });
@@ -188,29 +298,49 @@ namespace Fintrak.TRMS.Controllers
 
         public IActionResult FormNCXDetails(string applicationId)
         {
-            //var token = _tokenStorageService.RetrieveToken();
-            FormNCXDetailsPageDTO details = new FormNCXDetailsPageDTO();
-            //details = _formADetailsRepository.GetFormADetails(applicationId, token).Result; // Replace with your actual details retrieval logic
-            return View(details); // Assuming _Details.cshtml is your details view
-        }
 
-        [HttpPost]
-        public IActionResult ApproveFormNCX(ADBReviewerRequestNCX adbreviewerncx, string applicationId)
-        {
+            FormNCXDetailsPageDTO details = new FormNCXDetailsPageDTO();
             try
             {
-                string response = "";
-                //var token = _tokenStorageService.RetrieveToken();
-                if (adbreviewerncx.Approved == true)
+                var token = _tokenStorageService.RetrieveToken();
+                details.FormNCXDetails = _formNCXDetailsRepository.GetFormNCXDetails(applicationId, token).Result; // Replace with your actual details retrieval logic
+                return View(details);
+            }
+            catch (Exception ex)
+            {
+                string innerMessage = ex.InnerException.Message;
+
+                if (int.TryParse(innerMessage, out int statusCode))
                 {
-                    response = _adbReviewerNCXRepository.ADBReviewerNCX(adbreviewerncx, applicationId, "ghvghvghn").Result.ResponseResult;
+                    object responseModel = ex.InnerException.InnerException.Message.ToString();
+                    _notyf.Error(statusCode + " | " + responseModel);
                 }
                 else
                 {
-                    response = _cancelADBReviewerNCXRepository.CancelADBReviewerNCX(adbreviewerncx, applicationId, "ghvghvghn").Result.ResponseResult;
+                    object responseModel = ex.InnerException.Message.ToString();
+                    _notyf.Error(500 + " | " + responseModel);
+                }
+            }
+            return View(details);
+        }
+
+        [HttpPost]
+        public IActionResult ApproveFormNCX(ADBReviewerRequestNCX adbreviewerncx, string applicationId, string adb)
+        {
+            try
+            {
+                ADBReviewerResponse response = new ADBReviewerResponse();
+                var token = _tokenStorageService.RetrieveToken();
+                if (adb == "false")
+                {
+                    response = _adbReviewerNCXRepository.ADBReviewerNCX(adbreviewerncx, applicationId, token).Result;
+                }
+                else
+                {
+                    response = _cancelADBReviewerNCXRepository.CancelADBReviewerNCX(adbreviewerncx, applicationId, token).Result;
                 }
                 _notyf.Success("Fintrak | " + response);
-                return RedirectToAction("FormADetails", new { applicationId = applicationId });
+                return RedirectToAction("FormNCXDetails", new { applicationId = applicationId });
             }
             catch (Exception ex)
             {
@@ -226,7 +356,7 @@ namespace Fintrak.TRMS.Controllers
                     _notyf.Error(500 + " | " + ex.InnerException.Message);
                 }
             }
-            return RedirectToAction("FormADetails", new { applicationId = applicationId });
+            return RedirectToAction("FormNCXDetails", new { applicationId = applicationId });
         }
 
         public IActionResult Privacy()
