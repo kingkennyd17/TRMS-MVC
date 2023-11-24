@@ -1,9 +1,9 @@
-﻿@{
+@{
     ViewData["Title"] = "Home Page";
 }
 @model Fintrak.TRMS.PageDTO.FormNXPPageDTO
 
-<div class="container mt-4">
+<div class="mt-4">
     <ul class="nav nav-tabs" id="formTabs">
         <li class="nav-item">
             <a class="nav-link active" id="tabPendingFormNXP" data-bs-toggle="tab" href="#tabContentPendingFormNXP">Pending Form NXP</a>
@@ -21,159 +21,185 @@
             <div class="page_layout">
                 <div class="sarh">
                     <h2>Pending Form-NXP Application</h2>
-                    <form asp-action="FormNXP" asp-controller="Home" method="get">
-                        <div class="mb-3 col-3 srh">
+                    <div class="mb-3 col-3">
+                        <form asp-action="FormNXP" asp-controller="Home" class="sarh" method="get">
                             <input type="text" class="form-control" id="applicationId" name="applicationId" placeholder="Search..." />
                             <button class="btn btn-primary" type="submit">Search</button>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
 
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Applicant Name</th>
-                            <th>Application Number</th>
-                            <th>Form Number</th>
-                            <th>FOB Value ($)</th>
-                            <th>NESS Levy (N)</th>
-                            <th>Stage</th>
-                            <th>Last Modified</th>
-                            <th>Date Created</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (Model.PendingFormNXP != null && Model.PendingFormNXP.responseResult != null && Model.PendingFormNXP.responseResult.content != null)
-                        {
-                            @foreach (var d in Model.PendingFormNXP.responseResult.content)
+                <div style="overflow-x: auto;  width: 100%;">
+                    <table class="table table-striped">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>Applicant Name</th>
+                                <th>Application Number</th>
+                                <th>Form Number</th>
+                                <th>FOB Value ($)</th>
+                                <th>NESS Levy (N)</th>
+                                <th>Stage</th>
+                                <th>Last Modified</th>
+                                <th>Date Created</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.PendingFormNXP != null && Model.PendingFormNXP.responseResult != null && Model.PendingFormNXP.responseResult.content != null)
                             {
-                                <tr onclick="window.location.href='@Url.Action("Pending", "FormNXP", new { id = d?.id })'">
-                                    <td>@d?.id</td>
-                                    <td>@d?.applicantName</td>
-                                    <td class="applicationNumber">@d?.applicationNumber</td>
-                                    <td>@d?.formNumber</td>
-                                    <td>@d?.initialShipmentTotalDollarFoB</td>
-                                    <td>@d?.initialShipmentNessLevyPayable</td>
-                                    <td>
-                                        <div class="stage">
-                                            @(d?.currentStageDate)
-                                        </div>
-                                    </td>
-                                    <td>@d?.updatedAt</td>
-                                    <td>@d?.createdAt</td>
-                                </tr>
+                                @foreach (var d in Model.PendingFormNXP.responseResult.content)
+                                {
+                                    <tr onclick="window.location.href='@Url.Action("Pending", "FormNXP", new { id = d?.id })'">
+                                        <td>@d?.id</td>
+                                        <td>@d?.applicantName</td>
+                                        <td class="applicationNumber">@d?.applicationNumber</td>
+                                        <td>@d?.formNumber</td>
+                                        <td>@d?.initialShipmentTotalDollarFoB</td>
+                                        <td>@d?.initialShipmentNessLevyPayable</td>
+                                        <td>
+                                            <div class="stage">
+                                                @(d?.statusCode)
+                                            </div>
+                                        </td>
+                                        <td>
+                                            @(
+                                        DateTimeOffset.FromUnixTimeMilliseconds(d.updatedAt ?? 0).UtcDateTime.ToString("dd MMM yyyy")
+                                    )
+                                        </td>
+                                        <td>
+                                            @(
+                                        DateTimeOffset.FromUnixTimeMilliseconds(d.createdAt ?? 0).UtcDateTime.ToString("dd MMM yyyy")
+                                    )
+                                        </td>
+                                    </tr>
+                                }
                             }
-                        }
-                    </tbody>
-                </table>
-                <!-- Include pagination logic as needed -->
+                        </tbody>
+                    </table>
+                    <!-- Include pagination logic as needed -->
+                </div>
             </div>
         </div>
         <div class="tab-pane fade" id="tabContentProcessedFormNXP">
             <div class="page_layout">
                 <div class="sarh">
                     <h2>Processed Form-NXP Application</h2>
-                    <form asp-action="FormNXP" asp-controller="Home" method="get">
-                        <div class="mb-3 col-3 srh">
+                    <div class="mb-3 col-3">
+                        <form asp-action="FormNXP" asp-controller="Home" class="sarh" method="get">
                             <input type="text" class="form-control" id="applicationId" name="applicationId" placeholder="Search..." />
                             <button class="btn btn-primary" type="submit">Search</button>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
 
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Applicant Name</th>
-                            <th>Application Number</th>
-                            <th>Form Number</th>
-                            <th>FOB Value ($)</th>
-                            <th>NESS Levy (N)</th>
-                            <th>Stage</th>
-                            <th>Last Modified</th>
-                            <th>Date Created</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (Model.ProcessedFormNXP != null && Model.ProcessedFormNXP.responseResult != null && Model.ProcessedFormNXP.responseResult.content != null)
-                        {
-                            @foreach (var d in Model.ProcessedFormNXP.responseResult.content)
+                <div style="overflow-x: auto;  width: 100%;">
+                    <table class="table table-striped">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>Applicant Name</th>
+                                <th>Application Number</th>
+                                <th>Form Number</th>
+                                <th>FOB Value ($)</th>
+                                <th>NESS Levy (N)</th>
+                                <th>Stage</th>
+                                <th>Last Modified</th>
+                                <th>Date Created</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.ProcessedFormNXP != null && Model.ProcessedFormNXP.responseResult != null && Model.ProcessedFormNXP.responseResult.content != null)
                             {
-                                <tr onclick="window.location.href='@Url.Action("Pending", "FormNXP", new { id = d.id })'">
-                                    <td>@d?.id</td>
-                                    <td>@d?.applicantName</td>
-                                    <td class="applicationNumber">@d?.applicationNumber</td>
-                                    <td>@d?.formNumber</td>
-                                    <td>@d?.initialShipmentTotalDollarFoB</td>
-                                    <td>@d?.initialShipmentNessLevyPayable</td>
-                                    <td>
-                                        <div class="stage">
-                                            @(d.currentStageDate)
-                                        </div>
-                                    </td>
-                                    <td>@d?.updatedAt</td>
-                                    <td>@d?.createdAt</td>
-                                </tr>
+                                @foreach (var d in Model.ProcessedFormNXP.responseResult.content)
+                                {
+                                    <tr onclick="window.location.href='@Url.Action("Pending", "FormNXP", new { id = d.id })'">
+                                        <td>@d?.id</td>
+                                        <td>@d?.applicantName</td>
+                                        <td class="applicationNumber">@d?.applicationNumber</td>
+                                        <td>@d?.formNumber</td>
+                                        <td>@d?.initialShipmentTotalDollarFoB</td>
+                                        <td>@d?.initialShipmentNessLevyPayable</td>
+                                        <td>
+                                            <div class="stage">
+                                                @(d.statusCode)
+                                            </div>
+                                        </td>
+                                        <td>
+                                            @(
+                                        DateTimeOffset.FromUnixTimeMilliseconds(d.updatedAt ?? 0).UtcDateTime.ToString("dd MMM yyyy")
+                                    )
+                                        </td>
+                                        <td>
+                                            @(
+                                        DateTimeOffset.FromUnixTimeMilliseconds(d.createdAt ?? 0).UtcDateTime.ToString("dd MMM yyyy")
+                                    )
+                                        </td>
+                                    </tr>
+                                }
                             }
-                        }
-                    </tbody>
-                </table>
-                <!-- Include pagination logic as needed -->
+                        </tbody>
+                    </table>
+                    <!-- Include pagination logic as needed -->
+                </div>
             </div>
         </div>
         <div class="tab-pane fade" id="tabContentNXPShipment">
             <div class="page_layout">
                 <div class="sarh">
-                    <h2>Shipment Applications</h2>
-                    <form asp-action="FormNXP" asp-controller="Home" method="get">
-                        <div class="mb-3 col-3 srh">
+                    <h2>Pending Shipment Applications</h2>
+                    <div class="mb-3 col-3">
+                        <form asp-action="FormNXP" asp-controller="Home" class="sarh" method="get">
                             <input type="text" class="form-control" id="applicationId" name="applicationId" placeholder="Search..." />
                             <button class="btn btn-primary" type="submit">Search</button>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
 
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Shipment Number </th>
-                            <th>Application Number</th>
-                            <th>Exporter Name</th>
-                            <th>Form Number</th>
-                            <th>FOB Value ($)</th>
-                            <th>NESS Levy (N)</th>
-                            <th>Stage</th>
-                            <th>Last Modified</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (Model.NXPShipments != null && Model.NXPShipments.responseResult != null && Model.NXPShipments.responseResult.content != null)
-                        {
-                            @foreach (var d in Model.NXPShipments.responseResult.content)
+                <div style="overflow-x: auto;  width: 100%;">
+                    <table class="table table-striped">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>Shipment Number </th>
+                                <th>Application Number</th>
+                                <th>Exporter Name</th>
+                                <th>Form Number</th>
+                                <th>FOB Value ($)</th>
+                                <th>NESS Levy (N)</th>
+                                <th>Stage</th>
+                                <th>Last Modified</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.PendingNXPShipments != null && Model.PendingNXPShipments.responseResult != null && Model.PendingNXPShipments.responseResult.content != null)
                             {
-                                <tr onclick="window.location.href='@Url.Action("Shipment", "NXP", new { id = d.id })'">
-                                    <td>@d?.id</td>
-                                    <td>@d?.shipmentNumber</td>
-                                    <td class="applicationNumber">@d?.formApplicationNumber</td>
-                                    <td>@d?.applicantName</td>
-                                    <td>@d?.formFormNumber</td>
-                                    <td>@d?.totalDollarFoB</td>
-                                    <td>@d?.nessLevyPayable</td>
-                                    <td>
-                                        <div class="stage">
-                                            @(d.currentStageDate)
-                                        </div>
-                                    </td>
-                                    <td>@d?.updatedAt</td>
-                                </tr>
+                                @foreach (var d in Model.PendingNXPShipments.responseResult.content)
+                                {
+                                    <tr onclick="window.location.href='@Url.Action("Shipment", "NXP", new { id = d.id })'">
+                                        <td>@d?.id</td>
+                                        <td>@d?.shipmentNumber</td>
+                                        <td class="applicationNumber">@d?.formApplicationNumber</td>
+                                        <td>@d?.applicantName</td>
+                                        <td>@d?.formFormNumber</td>
+                                        <td>@d?.totalDollarFoB</td>
+                                        <td>@d?.nessLevyPayable</td>
+                                        <td>
+                                            <div class="stage">
+                                                @(d.statusCode)
+                                            </div>
+                                        </td>
+                                        <td>
+                                            @(
+                                        DateTimeOffset.FromUnixTimeMilliseconds(d.updatedAt ?? 0).UtcDateTime.ToString("dd MMM yyyy")
+                                    )
+                                        </td>
+                                    </tr>
+                                }
                             }
-                        }
-                    </tbody>
-                </table>
-                <!-- Include pagination logic as needed -->
+                        </tbody>
+                    </table>
+                    <!-- Include pagination logic as needed -->
+                </div>
             </div>
         </div>
     </div>
