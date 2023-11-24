@@ -1,4 +1,4 @@
-﻿using Fintrak.TRMS.Models;
+using Fintrak.TRMS.Models;
 
 namespace Fintrak.TRMS.PageDTO
 {
@@ -7,5 +7,6 @@ namespace Fintrak.TRMS.PageDTO
         public FormADetails? FormADetails { get; set; }
         public ApprovalRejectionRequest? ApprovalRequest { get; set; }
         public DisbursementReviewerRequest? DisbursementRequest { get; set; }
+        public string adb { get; set; }
     }
 }
