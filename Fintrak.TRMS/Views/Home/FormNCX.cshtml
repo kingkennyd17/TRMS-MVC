@@ -1,9 +1,9 @@
-﻿@{
+@{
     ViewData["Title"] = "Home Page";
 }
 @model Fintrak.TRMS.PageDTO.FormNCXPageDTO
 
-<div class="container mt-4">
+<div class="mt-4">
     <ul class="nav nav-tabs" id="formTabs">
         <li class="nav-item">
             <a class="nav-link active" id="tabPendingFormNCX" data-bs-toggle="tab" href="#tabContentPendingFormNCX">Pending Form NCX</a>
@@ -18,169 +18,155 @@
             <div class="page_layout">
                 <div class="sarh">
                     <h2>Pending Form-NCX Application</h2>
-                    <form asp-action="FormNCX" asp-controller="Home" method="get">
-                        <div class="mb-3 col-3 srh">
+                    <div class="mb-3 col-3">
+                        <form asp-action="FormNCX" asp-controller="Home" class="sarh" method="get">
                             <input type="text" class="form-control" id="applicationId" name="applicationId" placeholder="Search..." />
                             <button class="btn btn-primary" type="submit">Search</button>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
 
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Applicant ID</th>
-                            <th>Applicant Name</th>
-                            <th>Application Number</th>
-                            <th>Form Number</th>
-                            <th>Estimated Goods Value (N)</th>
-                            <th>Current Stage Date</th>
-                            <th>Status</th>
-                            <th>Processing Bank Name</th>
-                            <th>Processing Bank Code</th>
-                            <th>Processing Bank Branch Name</th>
-                            <th>Last Modified</th>
-                            <th>Date Created</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (Model.PendingFormNCX != null && Model.PendingFormNCX.ResponseResult != null && Model.PendingFormNCX.ResponseResult.Content != null)
-                        {
-                            @foreach (var d in Model.PendingFormNCX.ResponseResult.Content)
+                <div style="overflow-x: auto;  width: 100%;">
+                    <table class="table table-striped">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>Applicant ID</th>
+                                <th>Applicant Name</th>
+                                <th>Application Number</th>
+                                <th>Form Number</th>
+                                <th>Estimated Goods Value (N)</th>
+                                <th>Current Stage Date</th>
+                                <th>Status</th>
+                                <th>Processing Bank Name</th>
+                                <th>Processing Bank Code</th>
+                                <th>Processing Bank Branch Name</th>
+                                <th>Last Modified</th>
+                                <th>Date Created</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.PendingFormNCX != null && Model.PendingFormNCX.ResponseResult != null && Model.PendingFormNCX.ResponseResult.Content != null)
                             {
-                                <tr class="pending-clickable-row" data-id="@d.Id">
-                                    <td>@d?.Id</td>
-                                    <td>@d?.ApplicantId</td>
-                                    <td>@d?.ApplicantName</td>
-                                    <td class="applicationNumber">@d?.ApplicationNumber</td>
-                                    <td>@d?.FormNumber</td>
-                                    <td>@d?.EstimatedValueOfGoodsNaira</td>
-                                    <td>@(
-                                            d?.CurrentStageDate?.ToString("yyyy-MM-dd") ?? "N/A"
-                                        )</td>
-                                    <td>
-                                        <div class="stage">
+                                @foreach (var d in Model.PendingFormNCX.ResponseResult.Content)
+                                {
+                                    <tr class="pending-clickable-row" onclick="window.location.href='@Url.Action("FormNCXDetails", "Home", new { applicationId = d.Id })'">
+                                        <td>@d?.Id</td>
+                                        <td>@d?.ApplicantId</td>
+                                        <td>@d?.ApplicantName</td>
+                                        <td class="applicationNumber">@d?.ApplicationNumber</td>
+                                        <td>@d?.FormNumber</td>
+                                        <td>@d?.EstimatedValueOfGoodsNaira</td>
+                                        <td>
                                             @(
+                                        DateTimeOffset.FromUnixTimeMilliseconds(d.CurrentStageDate ?? 0).UtcDateTime.ToString("dd MMM yyyy")
+                                    )
+                                        </td>
+                                        <td>
+                                            <div class="stage">
+                                                @(
                                             d?.Status?.ToUpper()
                                             )
-                                        </div>
-                                    </td>
-                                    <td>@d?.ProcessingBankName</td>
-                                    <td>@d?.ProcessingBankCode</td>
-                                    <td>@d?.ProcessingBankBranchName</td>
-                                    <td>@(
-                                            d?.UpdatedAt?.ToString("yyyy-MM-dd") ?? "N/A"
-                                        )</td>
-                                    <td>@(
-                                            d?.CreatedAt?.ToString("yyyy-MM-dd") ?? "N/A"
-                                        )</td>
-                                </tr>
+                                            </div>
+                                        </td>
+                                        <td>@d?.ProcessingBankName</td>
+                                        <td>@d?.ProcessingBankCode</td>
+                                        <td>@d?.ProcessingBankBranchName</td>
+                                        <td>
+                                            @(
+                                        DateTimeOffset.FromUnixTimeMilliseconds(d.UpdatedAt ?? 0).UtcDateTime.ToString("dd MMM yyyy")
+                                    )
+                                        </td>
+                                        <td>
+                                            @(
+                                        DateTimeOffset.FromUnixTimeMilliseconds(d.CreatedAt ?? 0).UtcDateTime.ToString("dd MMM yyyy")
+                                    )
+                                        </td>
+                                    </tr>
+                                }
                             }
-                        }
-                    </tbody>
-                </table>
-                <pagination-controls></pagination-controls>
+                        </tbody>
+                    </table>
+                    <pagination-controls></pagination-controls>
+                </div>
             </div>
         </div>
         <div class="tab-pane fade" id="tabContentProcessedFormNCX">
             <div class="page_layout">
                 <div class="sarh">
                     <h2>Processed Form-NCX Application</h2>
-                    <form asp-action="FormNCX" asp-controller="Home" method="get">
-                        <div class="mb-3 col-3 srh">
+                    <div class="mb-3 col-3">
+                        <form asp-action="FormNCX" asp-controller="Home" class="sarh" method="get">
                             <input type="text" class="form-control" id="applicationId" name="applicationId" placeholder="Search..." />
                             <button class="btn btn-primary" type="submit">Search</button>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
 
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Applicant ID</th>
-                            <th>Applicant Name</th>
-                            <th>Application Number</th>
-                            <th>Form Number</th>
-                            <th>Estimated Goods Value (N)</th>
-                            <th>Current Stage Date</th>
-                            <th>Status</th>
-                            <th>Processing Bank Name</th>
-                            <th>Processing Bank Code</th>
-                            <th>Processing Bank Branch Name</th>
-                            <th>Last Modified</th>
-                            <th>Date Created</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (Model.ProcessedFormNCX != null && Model.ProcessedFormNCX.ResponseResult != null && Model.ProcessedFormNCX.ResponseResult.Content != null)
-                        {
-                            @foreach (var d in Model.ProcessedFormNCX.ResponseResult.Content)
+                <div style="overflow-x: auto;  width: 100%;">
+                    <table class="table table-striped">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>Applicant ID</th>
+                                <th>Applicant Name</th>
+                                <th>Application Number</th>
+                                <th>Form Number</th>
+                                <th>Estimated Goods Value (N)</th>
+                                <th>Current Stage Date</th>
+                                <th>Status</th>
+                                <th>Processing Bank Name</th>
+                                <th>Processing Bank Code</th>
+                                <th>Processing Bank Branch Name</th>
+                                <th>Last Modified</th>
+                                <th>Date Created</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.ProcessedFormNCX != null && Model.ProcessedFormNCX.ResponseResult != null && Model.ProcessedFormNCX.ResponseResult.Content != null)
                             {
-                                <tr class="processed-clickable-row" data-id="@d.Id">
-                                    <td>@d?.Id</td>
-                                    <td>@d?.ApplicantId</td>
-                                    <td>@d?.ApplicantName</td>
-                                    <td class="applicationNumber">@d?.ApplicationNumber</td>
-                                    <td>@d?.FormNumber</td>
-                                    <td>@d?.EstimatedValueOfGoodsNaira</td>
-                                    <td>@(
-                                            d?.CurrentStageDate?.ToString("yyyy-MM-dd") ?? "N/A"
-                                        )</td>
-                                    <td>
-                                        <div class="stage">
+                                @foreach (var d in Model.ProcessedFormNCX.ResponseResult.Content)
+                                {
+                                    <tr class="processed-clickable-row" onclick="window.location.href='@Url.Action("FormNCXDetails", "Home", new { applicationId = d.Id })'">
+                                        <td>@d?.Id</td>
+                                        <td>@d?.ApplicantId</td>
+                                        <td>@d?.ApplicantName</td>
+                                        <td class="applicationNumber">@d?.ApplicationNumber</td>
+                                        <td>@d?.FormNumber</td>
+                                        <td>@d?.EstimatedValueOfGoodsNaira</td>
+                                        <td>
                                             @(
+                                        DateTimeOffset.FromUnixTimeMilliseconds(d.CurrentStageDate ?? 0).UtcDateTime.ToString("dd MMM yyyy")
+                                    )
+                                        </td>
+                                        <td>
+                                            <div class="stage">
+                                                @(
                                             d?.StatusCode
                                             )
-                                        </div>
-                                    </td>
-                                    <td>@d?.ProcessingBankName</td>
-                                    <td>@d?.ProcessingBankCode</td>
-                                    <td>@d?.ProcessingBankBranchName</td>
-                                    <td>@(
-                                            d?.UpdatedAt?.ToString("yyyy-MM-dd") ?? "N/A"
-                                        )</td>
-                                    <td>@(
-                                            d?.CreatedAt?.ToString("yyyy-MM-dd") ?? "N/A"
-                                        )</td>
-                                </tr>
+                                            </div>
+                                        </td>
+                                        <td>@d?.ProcessingBankName</td>
+                                        <td>@d?.ProcessingBankCode</td>
+                                        <td>@d?.ProcessingBankBranchName</td>
+                                        <td>
+                                            @(
+                                        DateTimeOffset.FromUnixTimeMilliseconds(d.UpdatedAt ?? 0).UtcDateTime.ToString("dd MMM yyyy")
+                                    )
+                                        </td>
+                                        <td>
+                                            @(
+                                        DateTimeOffset.FromUnixTimeMilliseconds(d.CreatedAt ?? 0).UtcDateTime.ToString("dd MMM yyyy")
+                                    )
+                                        </td>
+                                    </tr>
+                                }
                             }
-                        }
-                    </tbody>
-                </table>
-                <pagination-controls></pagination-controls>
+                        </tbody>
+                    </table>
+                    <pagination-controls></pagination-controls>
+                </div>
             </div>
         </div>
     </div>
 </div>
-
-<script>
-    // Handle click event on rows with class 'pending-clickable-row'
-    document.querySelectorAll('.pending-clickable-row').forEach(row => {
-        row.addEventListener('click', function () {
-            // Get the data-id attribute value (assuming it's the ID of the item)
-            var itemId = this.getAttribute('data-id');
-
-            // Call the action method to get details and update the details-container
-            fetch('/Home/FormNCXDetails/' + itemId)
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('details-container').innerHTML = data;
-                });
-        });
-    });
-    document.querySelectorAll('.processed-clickable-row').forEach(row => {
-        row.addEventListener('click', function () {
-            // Get the data-id attribute value (assuming it's the ID of the item)
-            var itemId = this.getAttribute('data-id');
-
-            // Call the action method to get details and update the details-container
-            fetch('/Home/FormNCXDetails/' + itemId)
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('details-container').innerHTML = data;
-                });
-        });
-    });
-</script>
