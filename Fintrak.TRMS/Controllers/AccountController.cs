@@ -1,4 +1,4 @@
-﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using AspNetCoreHero.ToastNotification.Abstractions;
 using Fintrak.TRMS.Models;
 using Fintrak.TRMS.Services;
 using Fintrak.TRMS.Services.Interface;
@@ -41,8 +41,8 @@ namespace Fintrak.TRMS.Controllers
             {
                 try
                 {
-                    //Token token = _accountRepository.Login(login).Result;
-                    //_tokenStorageService.StoreToken(token.access_token);
+                    Token token = _accountRepository.Login(login).Result;
+                    _tokenStorageService.StoreToken(token.access_token);
 
                     return RedirectToAction("Index", "Home");
                 }
