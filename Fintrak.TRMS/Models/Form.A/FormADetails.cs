@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace Fintrak.TRMS.Models
@@ -70,9 +70,9 @@ namespace Fintrak.TRMS.Models
     public class File
     {
         public int Id { get; set; }
-        public long CreatedAt { get; set; }
-        public long UpdatedAt { get; set; }
-        public long ArchivedAt { get; set; }
+        public long? CreatedAt { get; set; }
+        public long? UpdatedAt { get; set; }
+        public long? ArchivedAt { get; set; }
         public string FileId { get; set; }
         public string FileName { get; set; }
         public string DiskFileName { get; set; }
@@ -84,9 +84,9 @@ namespace Fintrak.TRMS.Models
     public class ResponseResultFormA
     {
         public int Id { get; set; }
-        public long CreatedAt { get; set; }
-        public long UpdatedAt { get; set; }
-        public long ArchivedAt { get; set; }
+        public long? CreatedAt { get; set; }
+        public long? UpdatedAt { get; set; }
+        public long? ArchivedAt { get; set; }
         public Contact Contact { get; set; }
         public int ValidForForex { get; set; }
         public int Year { get; set; }
@@ -100,12 +100,12 @@ namespace Fintrak.TRMS.Models
         public string ProcessingFeeAccountNumberPreAmend { get; set; }
         public string RejectionStakeholder { get; set; }
         public bool ActiveProcess { get; set; }
-        public DateTime CurrentStageDate { get; set; }
+        public DateTime? CurrentStageDate { get; set; }
         public object ProcessReset { get; set; }
         public PaymentMode PaymentMode { get; set; }
         public object PaymentModePreAmend { get; set; }
         public object ExchangeRate { get; set; }
-        public DateTime ApprovedDate { get; set; }
+        public DateTime? ApprovedDate { get; set; }
         public string ApplicantName { get; set; }
         public string ApplicantPhone { get; set; }
         public string ApplicantEmail { get; set; }
@@ -163,8 +163,8 @@ namespace Fintrak.TRMS.Models
         public string CancellationReason { get; set; }
         public bool CancellationInit { get; set; }
         public bool CancellationComplete { get; set; }
-        public DateTime CancellationRequestDate { get; set; }
-        public DateTime CancellationCompletedDate { get; set; }
+        public DateTime? CancellationRequestDate { get; set; }
+        public DateTime? CancellationCompletedDate { get; set; }
         public object AmendmentNumberSerial { get; set; }
         public object PreAmendmentRequestStatus { get; set; }
         public object AmendmentNumber { get; set; }
@@ -239,7 +239,7 @@ namespace Fintrak.TRMS.Models
         public string Name { get; set; }
         public int TypeId { get; set; }
         public string BeneficiaryType { get; set; }
-        public int LimitAmount { get; set; }
+        public double? LimitAmount { get; set; }
         public object Attachments { get; set; }
         public TradeCategory TradeCategory { get; set; }
     }
@@ -316,7 +316,7 @@ namespace Fintrak.TRMS.Models
         public object PassportNumberPreAmend { get; set; }
         public Country Country { get; set; }
         public object CountryPreAmend { get; set; }
-        public decimal AmountRequested { get; set; }
+        public decimal? AmountRequested { get; set; }
         public object AmountRequestedPreAmend { get; set; }
         public Currency Currency { get; set; }
         public object CurrencyPreAmend { get; set; }
